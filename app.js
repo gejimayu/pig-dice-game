@@ -8,11 +8,11 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
-
-const WINNING_SCORE = 100;
-var globalScore, activePlayer, currentScore, dice, isWon;
+const DEFAULT_FINAL_SCORE = 100;
+var globalScore, activePlayer, currentScore, dice, isWon, finalScore = DEFAULT_FINAL_SCORE;
 
 function init() {
+	document.querySelector('input.final-score').disabled = false;
 	globalScore = [0, 0];
 	document.querySelector('#score-0').textContent = globalScore[0];
 	document.querySelector('#score-1').textContent = globalScore[1];
@@ -24,6 +24,14 @@ function init() {
 	document.querySelector('#current-1').textContent = currentScore[1];
 	isWon = false;
 	document.querySelector('img.dice').style.display = 'none';
+}
+
+function getFinalScore() {
+	finalScore = parseInt(document.querySelector('input.final-score').value);
+	if (isNaN(finalScore) || finalScore <= 0) {
+		finalScore = DEFAULT_FINAL_SCORE;
+		document.querySelector('input.final-score').value = finalScore;
+	}
 }
 
 function changeTurn() {
@@ -39,6 +47,10 @@ function updateCurrentActiveScore(score) {
 
 document.querySelector('.btn-roll').addEventListener('click', function(event) {
 	if (!isWon) {
+		if (!document.querySelector('input.final-score').disabled) {
+			getFinalScore();	
+			document.querySelector('input.final-score').disabled = true;
+		}
 		dice = Math.floor(Math.random(6) * 6) + 1;
 		if (dice === 1) {
 			// reset score
@@ -64,7 +76,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(event) {
 		globalScore[activePlayer] += currentScore[activePlayer];
 		document.querySelector('#score-' + activePlayer).textContent = globalScore[activePlayer];
 		// determine winner
-		if (globalScore[activePlayer] >= WINNING_SCORE) {
+		if (globalScore[activePlayer] >= finalScore) {
 			// hide dice
 			document.querySelector('img.dice').style.display = 'none';
 			// won logic
