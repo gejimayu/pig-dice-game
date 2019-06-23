@@ -50,4 +50,24 @@ document.querySelector('.btn-roll').addEventListener('click', function(event) {
 	}
 });
 
+document.querySelector('.btn-hold').addEventListener('click', function(event) {
+	if (!isWon) {
+		// add to global score
+		globalScore[activePlayer] += currentScore[activePlayer];
+		document.querySelector('#score-' + activePlayer).textContent = globalScore[activePlayer];
+		// detemrine winner
+		if (globalScore[activePlayer] >= WINNING_SCORE) {
+			isWon = true;
+			document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+			document.querySelector('#name-' + activePlayer).textContent = 'Winner';
+		} else {
+			// reset current active player's score
+			currentScore[activePlayer] = 0;
+			document.querySelector('#current-' + activePlayer).textContent = currentScore[activePlayer];
+			// change turn
+			changeTurn();
+		}
+	}
+});
+
 init();
