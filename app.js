@@ -31,21 +31,24 @@ function changeTurn() {
 	document.querySelector('.player-' + activePlayer + '-panel').classList.add('active');
 }
 
+function updateCurrentActiveScore(score) {
+	currentScore[activePlayer] = score;
+	document.querySelector('#current-' + activePlayer).textContent = currentScore[activePlayer];
+}
+
 document.querySelector('.btn-roll').addEventListener('click', function(event) {
 	if (!isWon) {
 		dice = Math.floor(Math.random(6) * 6) + 1;
 		if (dice === 1) {
 			// reset score
-			currentScore[activePlayer] = 0;
-			document.querySelector('#current-' + activePlayer).textContent = currentScore[activePlayer];
+			updateCurrentActiveScore(0);
 			// change turn
 			changeTurn();
 		} else {
 			// update dice
 			document.querySelector('.dice').src = 'dice-' + dice + '.png';
 			// update current score
-			currentScore[activePlayer] += dice;
-			document.querySelector('#current-' + activePlayer).textContent = currentScore[activePlayer];
+			updateCurrentActiveScore(currentScore[activePlayer] + dice);
 		}
 	}
 });
@@ -62,8 +65,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(event) {
 			document.querySelector('#name-' + activePlayer).textContent = 'Winner';
 		} else {
 			// reset current active player's score
-			currentScore[activePlayer] = 0;
-			document.querySelector('#current-' + activePlayer).textContent = currentScore[activePlayer];
+			updateCurrentActiveScore(0);
 			// change turn
 			changeTurn();
 		}
