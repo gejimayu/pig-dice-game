@@ -72,4 +72,10 @@ document.querySelector('.btn-hold').addEventListener('click', function(event) {
 	}
 });
 
+document.querySelector('.btn-new').addEventListener('click', function(event) {
+	document.querySelector('.player-' + activePlayer + '-panel').classList.remove('winner');
+	document.querySelector('#name-' + activePlayer).textContent = 'Player' + activePlayer;
+	init();
+})
+
 init();
