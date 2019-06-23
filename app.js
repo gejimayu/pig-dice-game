@@ -9,7 +9,7 @@ GAME RULES:
 
 */
 
-const WINNING_SCORE = 2;
+const WINNING_SCORE = 100;
 var globalScore, activePlayer, currentScore, dice, isWon;
 
 function init() {
