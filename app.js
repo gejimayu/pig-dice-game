@@ -25,4 +25,29 @@ function init() {
 	isWon = false;
 }
 
+function changeTurn() {
+	document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+	activePlayer = (activePlayer === 0) ? 1 : 0;
+	document.querySelector('.player-' + activePlayer + '-panel').classList.add('active');
+}
+
+document.querySelector('.btn-roll').addEventListener('click', function(event) {
+	if (!isWon) {
+		dice = Math.floor(Math.random(6) * 6) + 1;
+		if (dice === 1) {
+			// reset score
+			currentScore[activePlayer] = 0;
+			document.querySelector('#current-' + activePlayer).textContent = currentScore[activePlayer];
+			// change turn
+			changeTurn();
+		} else {
+			// update dice
+			document.querySelector('.dice').src = 'dice-' + dice + '.png';
+			// update current score
+			currentScore[activePlayer] += dice;
+			document.querySelector('#current-' + activePlayer).textContent = currentScore[activePlayer];
+		}
+	}
+});
+
 init();
