@@ -23,6 +23,7 @@ function init() {
 	document.querySelector('#current-0').textContent = currentScore[0];
 	document.querySelector('#current-1').textContent = currentScore[1];
 	isWon = false;
+	document.querySelector('img.dice').style.display = 'none';
 }
 
 function changeTurn() {
@@ -42,11 +43,15 @@ document.querySelector('.btn-roll').addEventListener('click', function(event) {
 		if (dice === 1) {
 			// reset score
 			updateCurrentActiveScore(0);
+			// hide dice
+			document.querySelector('img.dice').style.display = 'none';
 			// change turn
 			changeTurn();
 		} else {
+			// show dice
+			document.querySelector('img.dice').style.display = 'block';
 			// update dice
-			document.querySelector('.dice').src = 'dice-' + dice + '.png';
+			document.querySelector('img.dice').src = 'dice-' + dice + '.png';
 			// update current score
 			updateCurrentActiveScore(currentScore[activePlayer] + dice);
 		}
@@ -58,8 +63,11 @@ document.querySelector('.btn-hold').addEventListener('click', function(event) {
 		// add to global score
 		globalScore[activePlayer] += currentScore[activePlayer];
 		document.querySelector('#score-' + activePlayer).textContent = globalScore[activePlayer];
-		// detemrine winner
+		// determine winner
 		if (globalScore[activePlayer] >= WINNING_SCORE) {
+			// hide dice
+			document.querySelector('img.dice').style.display = 'none';
+			// won logic
 			isWon = true;
 			document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
 			document.querySelector('#name-' + activePlayer).textContent = 'Winner';
